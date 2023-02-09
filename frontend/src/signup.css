@@ -1,0 +1,84 @@
+/*-------- app---------*/
+
+.app {
+  margin: auto;
+}
+
+.main img {
+  height: 200px;
+  display: block;
+  margin-top: 50px;
+}
+
+/*--------  SIGN UP ---------*/
+.main {
+  margin: 0px;
+  border: 1px solid rgb(241, 76, 16);
+  width: 500px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#firstname,
+#lastname,
+#barangay,
+#city,
+#region,
+#Email,
+#phonenumber,
+#usernames,
+#passwords {
+  border: rgb(241, 76, 16) 1px solid;
+  border-radius: 50px;
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 5px;
+  margin-top: 20px;
+  width: 190px;
+}
+
+.containers {
+  padding-bottom: 15px;
+}
+
+.containers input {
+  border-radius: 50px;
+  border: 1px solidrgb(241, 76, 16);
+}
+
+.main label {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#signup {
+  border-radius: 50px;
+  padding: 10px 120px 10px 120px;
+  border-width: 1px;
+  cursor: pointer;
+  background-color: rgb(241, 76, 16);
+  font-size: 15px;
+  font-weight: bold;
+  border: rgb(241, 76, 16) 1px solid;
+  margin-top: 15px;
+  color: white;
+}
+
+#signup:hover {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(241, 76, 16);
+  color: rgb(241, 76, 16);
+}
+
+/*-------- Dashboard.jsx ---------*/
+
+ul {
+  margin: 10px;
+  padding: 10px;
+  color: white;
+  list-style-type: none;
+}
+
+ul li a:hover {
+  cursor: pointer;
+}

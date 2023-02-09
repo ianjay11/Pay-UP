@@ -1,0 +1,47 @@
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #fccb90;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: rgb(241, 76, 16);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: rgb(241, 76, 16);
+}
+
+.btn-primary-1 {
+  border: 1px solid rgb(241, 76, 16);
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.btn-primary-1:hover {
+  color: rgb(241, 76, 16);
+  background-color: #fafdfd;
+  border-color: rgb(241, 76, 16);
+}
+
+.btn-outline-danger {
+  border-color: rgb(241, 76, 16);
+  color: rgb(241, 76, 16);
+  background-color: #fafdfd;
+}
+
+.btn-outline-danger:hover {
+  color: #fafdfd;
+  background-color: rgb(241, 76, 16);
+  border-color: rgb(241, 76, 16);
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
+}

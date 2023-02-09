@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../React + Vite"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "React + Vite"
+	}
+}

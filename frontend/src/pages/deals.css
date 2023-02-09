@@ -1,0 +1,21 @@
+#container {
+  margin-left: 260px;
+}
+
+#purcontainer {
+  margin-left: 260px;
+}
+
+#table{
+  border: 1px solid rgb(241, 179, 156);
+}
+
+.nav-link {
+color: #f19155;
+}
+
+#active {
+  color: #fd670d;
+  font-weight: 500;
+}
+
