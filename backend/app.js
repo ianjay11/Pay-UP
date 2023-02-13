@@ -11,7 +11,7 @@ import {
   updateUser,
 } from "./Routes/login.js";
 import { auth } from "./middleware/auth.js";
-import { transactions } from "./Routes/transactions.js";
+import { balance, cashIn, withdraw } from "./Routes/transactions.js";
 import {
   deal,
   editDeal,
@@ -19,7 +19,7 @@ import {
   showAlldDeals,
   getBuyerDeal,
   deleteDeal,
-  updateDealStatus
+  updateDealStatus,
 } from "./Routes/deal.js";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -54,11 +54,13 @@ app.put("/deal/:id", auth, editDeal);
 app.delete("/deal/:id", auth, deleteDeal);
 app.get("/me/deal", auth, getBuyerDeal);
 app.get("/dealme", auth, getDealsByUser);
-app.put("/me/deal_status/:id", auth, updateDealStatus)
+app.put("/me/deal_status/:id", auth, updateDealStatus);
 app.get("/deal", auth, showAlldDeals); //admin
 
 //all about transactions
-app.post("/transactions", auth, transactions);
+app.post("/cashIn", auth, cashIn);
+app.post("/withdraw", auth, withdraw);
+app.get("/balance", auth, balance);
 
 pool.connect((err) => {
   if (err) {

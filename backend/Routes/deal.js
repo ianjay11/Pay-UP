@@ -117,8 +117,8 @@ const showAlldDeals = async (req, res) => {
 };
 
 //all deals from the logged user
-const getDealsByUser = (req, res) => {
-  pool.query(
+const getDealsByUser = async (req, res) => {
+  await pool.query(
     `SELECT 
           deal_id,
           item_description,
@@ -172,9 +172,9 @@ const getBuyerDeal = async (req, res) => {
 };
 
 //delete deal
-const deleteDeal = (req, res) => {
+const deleteDeal = async (req, res) => {
   const deal_id = req.params.id;
-  pool.query(
+  await pool.query(
     "DELETE FROM deal WHERE deal_id = $1",
     [deal_id],
     (error, results) => {

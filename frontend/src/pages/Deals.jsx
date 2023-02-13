@@ -9,7 +9,7 @@ function Deals() {
   const navigate = useNavigate();
   const [itemId, setItemId] = useState();
   const item = useMemo(() => deal?.find((d) => d.deal_id == itemId), [itemId]);
-  const [select, setSelect] = useState()
+  const [select, setSelect] = useState();
 
   async function deleteDeal(deal_id) {
     await app.delete('/deal/' + deal_id);
@@ -38,15 +38,17 @@ function Deals() {
       </ul>
       <div>
         {/* end nav */}
-        <h3 className="pb-2 mt-3">Created Deals</h3>
-        <button
-          type="button"
-          className="btn btn-primary mb-3"
-          data-bs-toggle="modal"
-          data-bs-target="#createDeal"
-        >
-          Create Deal
-        </button>
+        <div className='d-flex'>
+          <h3 className="pb-2 mt-3 flex-grow-1">Created Deals</h3>
+          <button
+            type="button"
+            className="btn btn-primary m-2 mx-4"
+            data-bs-toggle="modal"
+            data-bs-target="#createDeal"
+          >
+            Create Deal
+          </button>
+        </div>
 
         {/*------------------------ create deal modal------------------------- */}
         <Form method="post" action="/dashboard/deals">
@@ -155,8 +157,6 @@ function Deals() {
                         type="text"
                       />
                     </div>
-
-
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -233,13 +233,19 @@ function Deals() {
                       className="btn btn-success"
                       data-bs-toggle="modal"
                       data-bs-target="#editModal"
-                      disabled={item.status != 'PENDING' && item.status != 'DECLINED'}
-                      onClick={() => {setItemId(item.deal_id); setSelect(item.courier_name)}}
+                      disabled={
+                        item.status != 'PENDING' && item.status != 'DECLINED'
+                      }
+                      onClick={() => {
+                        setItemId(item.deal_id);
+                        setSelect(item.courier_name);
+                      }}
                     >
                       <i className="fa fa-edit"></i>Edit
                     </button>
                     <button
-                      className="btn btn-danger ms-1" disabled={item.status != 'PENDING'}
+                      className="btn btn-danger ms-1"
+                      disabled={item.status != 'PENDING'}
                       onClick={() => deleteDeal(item.deal_id)}
                     >
                       <i className="fa fa-trash"></i>Delete
@@ -294,7 +300,8 @@ function Deals() {
                     <div className="col-md-6">
                       <label className="small mb-1">Courier Name</label>
                       <select
-                        value={select} onChange= {(e) => setSelect(e.target.value)}
+                        value={select}
+                        onChange={(e) => setSelect(e.target.value)}
                         className="form-select form-select-lg mb-3"
                         aria-label="Default select example"
                         name="courier_name"

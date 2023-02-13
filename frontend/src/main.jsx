@@ -14,8 +14,6 @@ import app from '../lib/axios-config';
 import Profile from './pages/Profile';
 import Deals from './pages/Deals';
 import Purchases from './pages/mypurchases';
-import Withdrawals from './pages/withdrawal';
-import Deposit from './pages/deposit';
 import Home from './pages/dashboardhome';
 
 if (localStorage.getItem('token')) {
@@ -82,37 +80,40 @@ const router = createBrowserRouter(
           }
           return null;
         }}
-        action={ async ({ request }) => {
+        action={async ({ request }) => {
           const data = Object.fromEntries(await request.formData());
-          console.log(request)
+          console.log(request);
           try {
             if (request.method === 'POST') {
               await app.post('/deal', data);
             } else if (request.method === 'PUT') {
-              await app.put('/deal/', data)}
+              await app.put('/deal/', data);
+            }
           } catch (error) {
             console.log(error);
             throw err;
           }
           return null;
         }}
-      />,
-       <Route
+      />
+      ,
+      <Route
         path="deals/:id"
-        action={ async ({ request, params }) => {
+        action={async ({ request, params }) => {
           const data = Object.fromEntries(await request.formData());
           try {
-            await app.put(`/deal/${params.id}`, data)}
-           catch (error) {
+            await app.put(`/deal/${params.id}`, data);
+          } catch (error) {
             console.log(error);
             throw error;
           }
           return redirect(`/dashboard/deals`);
         }}
-      />,
+      />
+      ,
       <Route
         path="deals/mypurchases/"
-        element={< Purchases />}
+        element={<Purchases />}
         loader={async () => {
           try {
             const res = await app.get('/me/deal');
@@ -122,21 +123,36 @@ const router = createBrowserRouter(
           }
           return null;
         }}
-      />,
-      <Route 
-      path='withdrawals'
-      element={< Withdrawals />}
-      />,
-      <Route 
-      path='deposit'
-      element={< Deposit />}
-      />,
-       <Route 
-      path='home'
-      element={< Home />}
+      />
+      ,
+      <Route
+        path="home"
+        element={<Home />}
+        loader={async () => {
+          try {
+            const res = await app.get('/balance');
+            return res.data;
+          } catch (err) {
+            console.log(err);
+            throw err;
+          }
+        }}
+        action={async ({ request }) => {
+          const data = Object.fromEntries(await request.formData());
+          try {
+            if (data.type == 'Cash In') {
+              await app.post('/cashIn', data);
+            } else if (data.type == 'withdraw') {
+              await app.post('/withdraw', data);
+            }
+          } catch (error) {
+            console.log(error);
+            throw err;
+          }
+          return null;
+        }}
       />
     </Route>,
-    
 
     <Route
       path="sign-up"

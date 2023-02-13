@@ -113,15 +113,19 @@ const loginUser = async (req, res) => {
 };
 
 // provide the auth middleware
-const verify = (req, res) => {
+const verify = async (req, res) => {
   const id = req.user.user_id;
   try {
-    pool.query("SELECT * FROM users WHERE user_id=$1 ", [id],(error, results) => {
-      if (error) {
-        throw error;
+    await pool.query(
+      "SELECT * FROM users WHERE user_id=$1 ",
+      [id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200).json({ user: results.rows[0] });
       }
-      res.status(200).json({user: results.rows[0]});
-    });
+    );
   } catch (error) {
     console.error(error.message);
     res.status(500).send({
@@ -130,18 +134,21 @@ const verify = (req, res) => {
   }
 };
 
-const getUsers = (request, response) => {
-  pool.query("SELECT * FROM users ORDER BY user_id ASC", (error, results) => {
-    if (error) {
-      throw error;
+const getUsers = async (request, response) => {
+  await pool.query(
+    "SELECT * FROM users ORDER BY user_id ASC",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows);
-  });
+  );
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   const user_id = req.params.id;
-  pool.query(
+  await pool.query(
     "DELETE FROM users WHERE user_id = $1",
     [user_id],
     (error, results) => {
@@ -159,7 +166,7 @@ const deleteUser = (req, res) => {
   );
 };
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
   const {
     username,
     first_name,
@@ -169,7 +176,7 @@ const updateUser = (req, res) => {
     email,
     phone_number,
   } = req.body;
-  pool.query(
+  await pool.query(
     "UPDATE users SET username = $1, first_name = $2, last_name = $3, barangay = $4, city = $5, email = $6, phone_number = $7 WHERE user_id = $8",
     [
       username,
@@ -196,8 +203,8 @@ const updateUser = (req, res) => {
   );
 };
 
-const getUserById = (req, res) => {
-  pool.query(
+const getUserById = async (req, res) => {
+  await pool.query(
     `SELECT 
         user_id,
         username, 
