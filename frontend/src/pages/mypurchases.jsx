@@ -10,10 +10,29 @@ export default function Purchases() {
   const updateStatus = async (status, id) => {
     try {
       const res = await app.put(`/me/deal_status/${id}`, { status });
-      console.log(res);
       navigate(0);
-    } catch {}
+    } catch (error){
+      console.log(error)
+    }
   };
+
+const receive = async (deal_id) => {
+  try {
+    const res = await app.post(`/receive/${deal_id}`)
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const accept = async (deal_id) => {
+  try {
+    const res = await app.post(`/accept/${deal_id}`)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
   return (
     <section className="bg-light p-1 container-bordered" id="purcontainer">
@@ -87,7 +106,7 @@ export default function Purchases() {
                     <button
                       className="btn btn-primary"
                       disabled={item.status == 'COMPLETED'}
-                      onClick={() => updateStatus(`COMPLETED`, item.deal_id)}
+                      onClick={() => {updateStatus(`COMPLETED`, item.deal_id); receive(item.deal_id)}}
                     >
                     RECEIVED
                     </button>
@@ -96,9 +115,9 @@ export default function Purchases() {
                       <button
                         className="btn btn-primary"
                         disabled={item.status != 'PENDING'}
-                        onClick={() => updateStatus(`ONGOING`, item.deal_id)}
+                        onClick={() => {updateStatus(`ONGOING`, item.deal_id); accept(item.deal_id)}}
                       >
-                        <i className="fa fa-edit"></i>Accept
+                        Accept
                       </button>
                       <button
                         className="btn btn-danger ms-1"

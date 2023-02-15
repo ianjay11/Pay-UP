@@ -4,13 +4,13 @@ import { useLoaderData } from 'react-router-dom';
 
 export default function Home() {
   const { balance } = useLoaderData();
-
+  const newbal = Number(balance).toFixed(2);
   return (
-    <div className="d-flex" id="container2">
+    <div className="d-flex flex-column" id="container2">
       <div className="card text-center mb-5" id="balance">
         <div className="card-body mb-3">
-          <h5 className="card-title">Balance</h5>
-          <p className="card-text mt-3 mb-4">{0 + balance}</p>
+          <h5 className="card-title">Wallet Balance</h5>
+          <p className="card-text mt-3 mb-4"> &#8369;{newbal}</p>
           <button
             className="btn btn-outline-danger mx-3"
             data-bs-toggle="modal"
@@ -53,10 +53,17 @@ export default function Home() {
               <div className="modal-body">
                 {/* <!-- Form Group (item description)--> */}
                 {/* <!-- Form Row--> */}
-                <div className="row gx-3 mb-3">
+                <div className="row gx-3 mb-3 needs-validation" noValidate>
                   <div className="col-md-6">
                     <label className="small mb-1">Amount</label>
-                    <input className="form-control" name="amount" type="text" />
+                    <input
+                      id="validationCustom03"
+                      className="form-control"
+                      name="amount"
+                      type="text"
+                      required
+                    />
+                    <div className="invalid-feedback">Please enter amount.</div>
                   </div>
                   {/* <!-- Form Group (courier name)--> */}
                   <div className="col-md-6">
@@ -65,6 +72,7 @@ export default function Home() {
                       className="form-select form-select-lg mb-3"
                       aria-label="Default select example"
                       name="gateway_option"
+                      required
                     >
                       <option value="Bank">Bank</option>
                       <option value="Coins.ph">Coins.ph</option>
@@ -167,6 +175,43 @@ export default function Home() {
           </div>
         </div>
       </Form>
+
+      <div
+        className="table-responsive shadow p-3 bg-body-tertiary rounded w-100"
+        id="table2" 
+      >
+        <h3 className="mb-3">Transactions</h3>
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr className="text-center">
+              <th>Transaction ID</th>
+              <th>Transaction Type</th>
+              <th>Payment From/To</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row" data-title="Item Description">
+              </td>
+
+              <td className="text-center" scope="row" data-title="Courier Name">
+              </td>
+
+              <td
+                className="text-center"
+                scope="row"
+                data-title="Tracking Number"
+              >
+              </td>
+
+              <td className="text-center" scope="row" data-title="Quantity">
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -10,6 +10,7 @@ body {
   margin-left: 125px;
   width: 120%;
   margin-top: -20px;
+  border: 1px solid rgb(248, 184, 160);
 }
 .card .card-header {
   font-weight: 500;
@@ -40,6 +41,7 @@ body {
   appearance: none;
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border: 1px solid rgb(247, 98, 45);
 }
 
 .btn-primary {

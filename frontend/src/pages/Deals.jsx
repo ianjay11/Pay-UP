@@ -46,7 +46,7 @@ function Deals() {
             data-bs-toggle="modal"
             data-bs-target="#createDeal"
           >
-            Create Deal
+           Create Deal 
           </button>
         </div>
 

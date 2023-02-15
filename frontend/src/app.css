@@ -30,9 +30,18 @@ body {
   align-items: center;
 }
 
+
+ 
+#sidebarlogo {
+  width: 120px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 60px;
+ 
+}
+
 #logout {
-  margin-top: 400px;
-  
+  margin-top: 280px;
   background-color: white;
   height: 35px;
   width: 80px;

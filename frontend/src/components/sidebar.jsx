@@ -1,7 +1,7 @@
 import React from 'react';
 import '../app.css';
 import { SidebarData } from './sidebardata';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -13,6 +13,12 @@ function Sidebar() {
 
   return (
     <div className="Sidebar">
+      <div>
+        <Link to="/dashboard/home">
+          <img id="sidebarlogo" src="/src/assets/4.png" alt="logo" />
+        </Link>
+      </div>
+
       <ul className="sidebarList">
         {SidebarData.map((val, key) => {
           return (

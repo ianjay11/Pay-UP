@@ -3,7 +3,7 @@
 #container2 {
     padding-top: 30px;
     margin-left: 150px;
-    margin-right: 20px;
+    margin-right: 320px;
   }
   
   #balance {
@@ -18,3 +18,7 @@
   font-size: 50px;
   }
   
+  #table2 {
+    margin-left: 200px;
+    border: solid 1px rgb(236, 172, 149);
+  }
