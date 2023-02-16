@@ -55,6 +55,11 @@ const withdraw = async (req, res) => {
     const user_id = req.user.user_id;
     const { amount, gateway_option } = req.body;
     const balance = await getBalance(user_id);
+
+    if (balance < Number(amount)) {
+      return res.status(400).json({ message: 'Insufficient balance' });
+    }
+
     const transaction = await pool.query(
       `
           INSERT INTO transactions (
@@ -145,4 +150,47 @@ const received = async (req, res) => {
   }
 };
 
-export { withdraw, cashIn, balance, accept, received };
+const getTransaction = async (req, res) => {
+  try {
+    const results = await pool.query(
+      `SELECT 
+          transaction_id,
+          transaction_type,
+          gateway_option,
+          amount,
+          inserted_at
+        FROM transactions 
+        WHERE user_id = $1 
+        ORDER BY inserted_at DESC
+        LIMIT 10`,
+      [req.user.user_id]
+    );
+
+    const formattedResults = results.rows.map((row) => {
+      const date = new Date(row.inserted_at);
+      const formattedDate = date.toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      return {
+        transaction_id: row.transaction_id,
+        transaction_type: row.transaction_type,
+        gateway_option: row.gateway_option,
+        amount: row.amount,
+        inserted_at: formattedDate
+      };
+    });
+
+    res.status(200).json(formattedResults);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+
+
+export { withdraw, cashIn, balance, accept, received, getTransaction };

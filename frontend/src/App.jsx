@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { Login } from './login';
 import { SignUp } from './signup';
 import {
@@ -39,6 +38,7 @@ const App = () => {
             return redirect('/dashboard/home');
           } catch (err) {
             console.log(err);
+            alert('Username or Password is incorrect');
             throw err;
           }
         }}
@@ -72,21 +72,31 @@ const App = () => {
         <Route
           path="deals"
           element={<Deals />}
-          loader={async () => {
-            try {
-              const res = await app.get('/dealme');
-              return res.data;
-            } catch (err) {
-              console.log(err);
-            }
-            return null;
-          }}
           action={async ({ request }) => {
             const data = Object.fromEntries(await request.formData());
             console.log(request);
             try {
               if (request.method === 'POST') {
-                await app.post('/deal', data);
+                const {
+                  amount,
+                  buyer_id,
+                  courier_name,
+                  courier_tracking,
+                  item_description,
+                  quantity,
+                } = data;
+                if (
+                  amount &&
+                  buyer_id &&
+                  courier_name &&
+                  courier_tracking &&
+                  item_description &&
+                  quantity
+                ) {
+                  await app.post('/deal', data);
+                } else {
+                  alert('Please input all required fields');
+                }
               } else if (request.method === 'PUT') {
                 await app.put('/deal/', data);
               }
@@ -130,28 +140,48 @@ const App = () => {
           path="home"
           element={<Home />}
           loader={async () => {
-            try {
-              const res = await app.get('/balance');
-              if (res.status != '200') {
-                redirect('/');
-                return;
+            let counter = 0;
+            while (counter < 3) {
+              try {
+                const [balance, transaction] = await Promise.all([
+                  app.get('/balance'),
+                  app.get('/transactions'),
+                ]);
+
+                if (balance.status === 200 && transaction.status === 200) {
+                  return {
+                    balance: balance.data,
+                    transactions: transaction.data,
+                  };
+                }
+              } catch (err) {
+                console.log(err);
+                if (err.response.status === 403) {
+                  alert('Session is expired');
+                  return redirect('/');
+                }
               }
-              return res.data;
-            } catch (err) {
-              return redirect('/');
+              counter++;
             }
+            alert('Failed to load data');
+            return redirect('/');
           }}
           action={async ({ request }) => {
             const data = Object.fromEntries(await request.formData());
             try {
               if (data.type == 'Cash In') {
-                await app.post('/cashIn', data);
-              } else if (data.type == 'withdraw') {
-                await app.post('/withdraw', data);
+                {
+                  const { amount, gateway_option } = data;
+                  if (amount && gateway_option) {
+                    await app.post('/cashIn', data);
+                  } else {
+                    alert('Please input all required fields');
+                  }
+                }
               }
             } catch (error) {
               console.log(error);
-              throw err;
+              throw error;
             }
             return null;
           }}
@@ -165,12 +195,37 @@ const App = () => {
           const data = Object.fromEntries(await request.formData());
           try {
             console.log(data);
-            const res = await app.post('/register', data);
-            console.log(res.data.token);
-            return redirect('/login');
-          } catch (err) {
-            console.error(err);
-            throw err;
+            const {
+              first_name,
+              last_name,
+              barangay,
+              city,
+              region,
+              email,
+              phone_number,
+              username,
+              password,
+            } = data;
+            if (
+              first_name &&
+              last_name &&
+              barangay &&
+              city &&
+              region &&
+              email &&
+              phone_number &&
+              username &&
+              password
+            ) {
+              const res = await app.post('/register', data);
+              alert('You have Successfully registered');
+              return redirect('/');
+            } else {
+              alert('Please input all required fields');
+            }
+          } catch (error) {
+            console.log(error);
+            throw error;
           }
         }}
         errorElement={<SignUp hasError />}

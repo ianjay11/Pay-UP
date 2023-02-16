@@ -1,20 +1,31 @@
 import '../pages/deals.css';
 import { Form } from 'react-router-dom';
-import React, { useMemo, useState } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import app from '../../lib/axios-config';
 
 function Deals() {
-  const deal = useLoaderData();
+  const [deals, setDeals] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState('ALL');
   const navigate = useNavigate();
   const [itemId, setItemId] = useState();
-  const item = useMemo(() => deal?.find((d) => d.deal_id == itemId), [itemId]);
+  const item = useMemo(() => deals?.find((d) => d.deal_id == itemId), [itemId]);
   const [select, setSelect] = useState();
 
   async function deleteDeal(deal_id) {
     await app.delete('/deal/' + deal_id);
     navigate(0);
   }
+
+  useEffect(() => {
+    const init = async () => {
+      const res = await app.get(`/dealme/${selectedStatus}`);
+      if (res.status == 200) {
+        setDeals(res.data);
+      }
+    };
+    init();
+  }, [selectedStatus]);
 
   return (
     <section className="bg-light p-1 container-bordered" id="container">
@@ -38,16 +49,35 @@ function Deals() {
       </ul>
       <div>
         {/* end nav */}
-        <div className='d-flex'>
-          <h3 className="pb-2 mt-3 flex-grow-1">Created Deals</h3>
+        <div className="d-flex mb-2 mt-2">
+          <h3 className="mt-3 flex-grow-1">Created Deals</h3>
           <button
             type="button"
-            className="btn btn-primary m-2 mx-4"
+            className="btn btn-primary m-2 mx-2"
             data-bs-toggle="modal"
             data-bs-target="#createDeal"
           >
-           Create Deal 
+            Create Deal
           </button>
+          <div className="dropdown">
+            <button
+              className="btn btn-secondary dropdown-toggle p-2 m-2 mx-3"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {selectedStatus}
+            </button>
+            <ul className="dropdown-menu">
+              {['ALL', 'PENDING', 'ONGOING', 'COMPLETED', 'DECLINED'].map(
+                (item) => (
+                  <li className="dropdown-item text-center">
+                    <a onClick={() => setSelectedStatus(item)}>{item}</a>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
         </div>
 
         {/*------------------------ create deal modal------------------------- */}
@@ -199,7 +229,7 @@ function Deals() {
               </tr>
             </thead>
             <tbody>
-              {deal.map((item, index) => (
+              {deals.map((item, index) => (
                 <tr key={index}>
                   <td scope="row" data-title="Item Description">
                     {item.item_description}
@@ -241,14 +271,13 @@ function Deals() {
                         setSelect(item.courier_name);
                       }}
                     >
-                      <i className="fa fa-edit"></i>Edit
+                      Edit
                     </button>
                     <button
                       className="btn btn-danger ms-1"
                       disabled={item.status != 'PENDING'}
-                      onClick={() => deleteDeal(item.deal_id)}
-                    >
-                      <i className="fa fa-trash"></i>Delete
+                      onClick={() => deleteDeal(item.deal_id)}>
+                      Delete
                     </button>
                   </td>
                 </tr>

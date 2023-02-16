@@ -9,7 +9,6 @@ const registerUser = async (req, res) => {
     const {
       username,
       password,
-      balance,
       first_name,
       last_name,
       barangay,
@@ -41,7 +40,9 @@ const registerUser = async (req, res) => {
     //generate the uuid using the uuidv4() function
     const newUser = await pool.query(
       `
-        INSERT INTO users (username, password, balance,
+        INSERT INTO users (
+          username, 
+          password,
             first_name,
             last_name,
             barangay,
@@ -49,12 +50,11 @@ const registerUser = async (req, res) => {
             region,
             email,
             phone_number)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *
         `,
       [
         username,
         bcryptPassword,
-        balance,
         first_name,
         last_name,
         barangay,

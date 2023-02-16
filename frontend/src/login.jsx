@@ -37,9 +37,6 @@ export function Login({ hasError }) {
 
                     <Form action="/" method="post">
                       <p>Please login to your account</p>
-                      {hasError && (
-                        <p style={{ color: 'red' }}>Wrong Credentials!!</p>
-                      )}
                       <div className="form-outline mb-4">
                         <input
                           type="text"

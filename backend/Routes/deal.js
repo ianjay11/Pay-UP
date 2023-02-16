@@ -118,7 +118,9 @@ const showAlldDeals = async (req, res) => {
 
 //all deals from the logged user
 const getDealsByUser = async (req, res) => {
-  await pool.query(
+  const status = req.params.status
+  if (status != 'ALL'){
+    await pool.query(
     `SELECT 
           deal_id,
           item_description,
@@ -128,15 +130,34 @@ const getDealsByUser = async (req, res) => {
           amount,
           courier_tracking,
           status 
-          FROM deal WHERE seller_id = $1 ORDER BY deal_id`,
-    [req.user.user_id],
+          FROM deal WHERE seller_id = $1 AND status=$2 ORDER BY deal_id`,
+    [req.user.user_id, status],
     (error, results) => {
       if (error) {
         res.status(500).send(error);
       }
       res.status(200).json(results.rows);
     }
-  );
+  );} else {
+    await pool.query(
+      `SELECT 
+            deal_id,
+            item_description,
+            courier_name,
+            quantity,
+            seller_id,
+            amount,
+            courier_tracking,
+            status 
+            FROM deal WHERE seller_id = $1 ORDER BY deal_id`,
+      [req.user.user_id],
+      (error, results) => {
+        if (error) {
+          res.status(500).send(error);
+        }
+        res.status(200).json(results.rows);
+      })
+  }
 };
 
 //deal for the buyer side to access the created deal
