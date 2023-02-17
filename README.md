@@ -1,4 +1,7 @@
-Pay-UP
+# Pay-UP
+
+## Description
+
 Pay UP is a digital wallet application designed to provide a safe and secure payment platform for both buyers and sellers. The app acts as an intermediary, holding the payment until the buyer confirms the receipt of the item. This ensures that the seller is paid only after the buyer has received the item and is satisfied with the transaction.
 
 In addition, Pay UP offers a unique feature where sellers can create deals and input all the necessary data for the transaction. This deal is then visible to the buyer who can accept it and proceed with the transaction. This makes the transaction process more transparent and allows both parties to have a clear understanding of the terms of the deal.
@@ -7,18 +10,78 @@ Pay UP is especially useful for online transactions where buyers and sellers may
 
 The app is easy to use and provides a convenient payment method for both buyers and sellers. Buyers can add funds to their digital wallet and use the app to make payments for their purchases. Sellers can send money from their bank account to the app and receive payments directly into their account once the buyer confirms receipt of the item.
 
-Pay UP also offers additional features such as transaction history, account balance, and customer support, making it a comprehensive payment solution for online transactions.
+With Pay UP, you can buy and sell online with confidence, knowing that your payment is secure and protected until the transaction is completed successfully. The added feature of creating deals ensures a more transparent and efficient transaction process for both buyers and sellers.
 
-With Pay UP, you can shop and sell online with confidence, knowing that your payment is secure and protected until the transaction is completed successfully. The added feature of creating deals ensures a more transparent and efficient transaction process for both buyers and sellers.
+### Features
 
-Installation
-Instructions for installing your project.
+1. Login and registration systems for users
+2. Account Balance
+3. Transaction History
+4. Cash in and Cashout for your wallet
+5.Creating deals between the specific buyer
+6.Profile page to see the users information
 
-Usage
-Instructions for using your project.
+### Technologies used
 
-Examples
-Examples of your project in action.
+#### Languages
+* HTML
+* JAVASCRIPT
+* CSS
 
-Contributing
-Instructions for contributing to your project.
+#### Frameworks
+* Bootstrap 5
+* ExpressJS
+* NodeJS
+* REST API
+* Vite
+
+#### Libraries
+* React
+* Bcrypt
+* Dotenv
+
+(See package.json for more libraries used)
+
+#### Database Management System
+* PostgreSQL
+
+## Installation
+1. Clone Repository
+2. Open in Visual Studio
+3. Install the dependencies for the server:
+ * Open Terminal and navigate to the server directory.
+ * Type ***npm init*** and press enter until completed.
+ * Type ***npm install*** to install the dependencies.
+ 
+ 4. Create a local Database
+* Open SQL shell.
+* Login to your database.
+* Open the 'database.sql' file.
+* Copy and paste 'CREATE DATABASE capstone;' into the command line of SQL shell. (note: you can change "capstone" to anything you want)
+* After creating the database, type \c capstone (or your custom name of the database) into the command line.
+* Individually copy all the CREATE TABLE statements from the 'database.sql' file into the command line to create your tables.
+
+5. Conneting the Database and the Server
+* Create a 'pool.js' file
+* Copy and paste the following into your 'pool.js' file:
+```
+import  pg  from  "pg"
+function  connectDatabase(){
+    const  pool = new  pg.Pool ({
+        user: '(your postgres username)',
+        password: '(your postgres password)',
+        host: 'localhost',
+        port: 5432,
+        database: 'capstone',
+    })
+        return  pool
+    }
+```
+## Usage
+
+
+## Examples
+
+
+## Contributing
+
