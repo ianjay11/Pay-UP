@@ -1,69 +1,63 @@
 import { Form } from 'react-router-dom';
-import './signup.css';
+import './sign-up.css';
 
-// {hasError && <p>An error has occurred. Please try again...</p>}
 
 export function SignUp({ hasError }) {
   return (
-    <center>
-      <section className="main">
-        <h1>Sign Up</h1>
-        <div className="containers">
-          <Form action="/sign-up" method="post">
-            <div className="box">
-              <div>
-                <label htmlFor="firstname"> First Name:</label>
-                <input type="text" id="firstname" name="first_name" />
-              </div>
-
-              <div>
-                <label htmlFor="lastname"> Last Name:</label>
-                <input type="text" id="lastname" name="last_name" />
-              </div>
-
-              <div>
-                <label htmlFor="barangay"> Barangay:</label>
-                <input type="text" id="barangay" name="barangay" />
-              </div>
-
-              <div>
-                <label htmlFor="city"> City:</label>
-                <input type="text" id="city" name="city" />
-              </div>
-
-              <div>
-                <label htmlFor="region"> Region:</label>
-                <input type="text" id="region" name="region" />
-              </div>
-
-              <div>
-                <label htmlFor="Email"> Email:</label>
-                <input type="text" id="Email" name="email" />
-              </div>
-              <label htmlFor="phonenumber">Phone Number:</label>
-              <input type="text" id="phonenumber" name="phone_number" />
-              <div>
-                <label htmlFor="username"> Username:</label>
-                <input type="text" id="usernames" name="username" />
-              </div>
-
-              <div>
-                <label htmlFor="password"> Password:</label>
-                <input type="password" id="passwords" name="password" />
-              </div>
-
-              <div>
-                <input id="signup" type="submit" value="Sign Up" />
-              </div>
+    <div className="wrapper">
+        <div className="form-left">
+            <h2 className="text-uppercase">Hi there!</h2>
+            <p>
+                Welcome to Pay UP, the secure and easy-to-use digital wallet app that provides a trusted platform for online transactions. To get started, please complete the registration form below. By creating an account with Pay UP, you will gain access to our intermediary service, as well as other unique features that simplify the transaction process and protect both buyers and sellers. Thank you for choosing Pay UP!
+            </p>
+            <div className="form-field">
+                <a href="/"><input type="submit" className="account" value="Already have an Account?"/></a>
             </div>
-          </Form>
         </div>
-        <div>
-          <p>
-            If you already have an account <a href="/">Click Here</a>
-          </p>
-        </div>
-      </section>
-    </center>
+        <Form method="post" action="/sign-up" className="form-right">
+            <h2 className="text-uppercase">Registration form</h2>
+            <div className="row">
+                <div className="col-sm-6 mb-3">
+                    <label>First Name</label>
+                    <input type="text" name="first_name" className="input-field" required/>
+                </div>
+                <div className="col-sm-6 mb-3">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" className="input-field" required/>
+                </div>
+                <div className="col-sm-6 mb-3">
+                    <label>Barangay</label>
+                    <input type="text" name="barangay"className="input-field" required/>
+                </div>
+                <div className="col-sm-6 mb-3">
+                    <label>City</label>
+                    <input type="text" name="city"className="input-field" required/>
+                </div>
+                <div className="col-sm-6 mb-3">
+                    <label>Region</label>
+                    <input type="text" name="region" className="input-field" required/>
+                </div>
+                <div className="col-sm-6 mb-3">
+                    <label>Phone Number</label>
+                    <input type="text" name="phone_number" className="input-field" required/>
+                </div>
+            </div>
+            <div className="mb-3">
+                <label>Your Email</label>
+                <input type="email" className="input-field" name="email" required/>
+            </div>
+            <div className="mb-3">
+                <label>Username</label>
+                <input type="text" name="username" className="input-field" required/>
+            </div>
+            <div className="mb-3">
+                <label>Password</label>
+                <input type="password" name="password" className="input-field" required/>
+            </div>
+            <div className="form-field">
+                <input type="submit" value="Register" className="register"/>
+            </div>
+        </Form>
+    </div>
   );
 }

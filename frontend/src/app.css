@@ -20,6 +20,7 @@ body {
   height: 100%;
   width: 100%;
   padding: 0;
+  color: white;
 }
 
 .sidebarList .row {
@@ -28,6 +29,7 @@ body {
   cursor: pointer;
   border: 1px solid rgb(247, 105, 69);
   align-items: center;
+  margin-left: 1px;
 }
 
 
@@ -50,6 +52,7 @@ body {
   color: rgb(241, 76, 16);
   font-weight: 500;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 #logout:hover {

@@ -33,6 +33,7 @@ const Profile = () => {
                   </label>
                   <input
                     disabled
+                    readOnly 
                     className="form-control"
                     name="user_id"
                     id="inputPhone"

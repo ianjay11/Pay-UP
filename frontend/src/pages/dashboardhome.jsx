@@ -79,7 +79,7 @@ export default function Home() {
               <div className="modal-body">
                 {/* <!-- Form Group (item description)--> */}
                 {/* <!-- Form Row--> */}
-                <div className="row gx-3 mb-3 needs-validation">
+                <div className="row gx-3 mb-3">
                   <div className="col-md-6">
                     <label className="small mb-1">Amount</label>
                     <input

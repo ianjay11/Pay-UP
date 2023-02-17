@@ -75,7 +75,7 @@ export function Login({ hasError }) {
                         <a href="/sign-up">
                           {' '}
                           <button type="button" className="btn btn-outline-danger">
-                            Create new
+                            Create
                           </button>
                         </a>
                       </div>

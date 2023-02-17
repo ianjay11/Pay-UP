@@ -72,7 +72,7 @@ function Deals() {
               {['ALL', 'PENDING', 'ONGOING', 'COMPLETED', 'DECLINED'].map(
                 (item) => (
                   <li className="dropdown-item text-center">
-                    <a onClick={() => setSelectedStatus(item)}>{item}</a>
+                    <a style={{cursor: 'pointer'}}onClick={() => setSelectedStatus(item)}>{item}</a>
                   </li>
                 )
               )}
