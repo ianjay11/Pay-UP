@@ -1,20 +1,18 @@
 import '../pages/deals.css';
 import { Form } from 'react-router-dom';
 import React, { useMemo, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import app from '../../lib/axios-config';
 
 function Deals() {
   const [deals, setDeals] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState('ALL');
-  const navigate = useNavigate();
   const [itemId, setItemId] = useState();
   const item = useMemo(() => deals?.find((d) => d.deal_id == itemId), [itemId]);
   const [select, setSelect] = useState();
 
   async function deleteDeal(deal_id) {
     await app.delete('/deal/' + deal_id);
-    navigate(0);
+    location.reload();
   }
 
   useEffect(() => {
@@ -72,7 +70,7 @@ function Deals() {
               {['ALL', 'PENDING', 'ONGOING', 'COMPLETED', 'DECLINED'].map(
                 (item) => (
                   <li className="dropdown-item text-center">
-                    <a style={{cursor: 'pointer'}}onClick={() => setSelectedStatus(item)}>{item}</a>
+                    <a style={{cursor: 'pointer'}} onClick={() => setSelectedStatus(item)}>{item}</a>
                   </li>
                 )
               )}
@@ -148,7 +146,7 @@ function Deals() {
                         className="form-control"
                         name="quantity"
                         id="inputLastName"
-                        type="text"
+                        type="number"
                       />
                     </div>
                     {/* <!-- Form Group (amount)--> */}
@@ -160,7 +158,7 @@ function Deals() {
                         className="form-control"
                         name="amount"
                         id="inputLastName"
-                        type="text"
+                        type="number"
                       />
                     </div>
                     {/* <!-- Form Group (courier tracking)--> */}
@@ -184,7 +182,7 @@ function Deals() {
                         className="form-control"
                         name="buyer_id"
                         id="inputOrgName"
-                        type="text"
+                        type="number"
                       />
                     </div>
                   </div>
@@ -390,6 +388,7 @@ function Deals() {
                     className="btn btn-primary"
                     data-bs-dismiss="modal"
                     type="submit"
+                    onClick={() => location.reload()}
                   >
                     Save Changes
                   </button>

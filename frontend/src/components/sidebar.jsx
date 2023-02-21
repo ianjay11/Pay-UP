@@ -2,6 +2,7 @@ import React from 'react';
 import '../app.css';
 import { SidebarData } from './sidebardata';
 import { Link, useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Sidebar() {
         })}
         <li>
           <button id="logout" onClick={handleLogout}>
-            Logout
+            Logout <LogoutIcon/>
           </button>
         </li>
       </ul>

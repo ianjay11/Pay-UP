@@ -15,6 +15,8 @@ import Deals from './pages/Deals';
 import Purchases from './pages/mypurchases';
 import Home from './pages/dashboardhome';
 
+
+
 if (localStorage.getItem('token')) {
   app.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
     'token'
@@ -94,11 +96,13 @@ const App = () => {
                   quantity
                 ) {
                   await app.post('/deal', data);
+                  location.reload()
                 } else {
                   alert('Please input all required fields');
                 }
               } else if (request.method === 'PUT') {
                 await app.put('/deal/', data);
+                window.location.reload(true);
               }
             } catch (error) {
               console.log(error);
