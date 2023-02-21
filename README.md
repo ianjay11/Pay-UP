@@ -18,8 +18,8 @@ With Pay UP, you can buy and sell online with confidence, knowing that your paym
 2. Account Balance
 3. Transaction History
 4. Cash in and Cashout for your wallet
-5.Creating deals between the specific buyer
-6.Profile page to see the users information
+5. Creating deals between the specific buyer
+6. Profile page to see the users information
 
 ### Technologies used
 
