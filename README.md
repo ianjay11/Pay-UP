@@ -61,7 +61,7 @@ With Pay UP, you can buy and sell online with confidence, knowing that your paym
 * After creating the database, type \c capstone (or your custom name of the database) into the command line.
 * Individually copy all the CREATE TABLE statements from the 'database.sql' file into the command line to create your tables.
 
-5. Conneting the Database and the Server
+5. Connecting the Database and the Server
 * Create a 'pool.js' file
 * Copy and paste the following into your 'pool.js' file:
 ```
