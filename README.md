@@ -50,8 +50,8 @@ With Pay UP, you can buy and sell online with confidence, knowing that your paym
 2. Open in Visual Studio
 3. Install the dependencies for the server:
  * Open Terminal and navigate to the server directory.
- * Type ***npm init*** and press enter until completed.
- * Type ***npm install*** to install the dependencies.
+ * Type `npm init` and press enter until completed.
+ * Type `npm install` to install the dependencies.
  
  4. Create a local Database
 * Open SQL shell.
@@ -77,11 +77,44 @@ function  connectDatabase(){
         return  pool
     }
 ```
-## Usage
+
+6. Create `.env` variable
+    -Create a new file called '.env'.
+    -Inside the '.env' file, input `JWT_SECRET = (insert your password-like string here)`.
+
+7. Install the dependencies for the client:
+    - Open a new terminal.
+    - Navigate to the client directory.
+    - Type `npm install` to install the dependencies.
+
+8. Turn on the project:
+    - Open a new terminal.
+    - Navigate to the backend directory.
+    - Type `npm run dev`.
+    - Open a new terminal.
+    - Navigate to the frontend directory.
+    - Type `npm run dev`.
 
 
-## Examples
+## Designs
+
+### Login Page
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/1loginpage.PNG">
+
+### Signup Page
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/2signuppage.PNG">
+
+### Dashboard 
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/3dashboard.PNG">
+
+### Profile Page 
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/4profilepage.PNG">
+
+### Create Deal Page
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/5createdealpage.PNG">
+
+### My Purchases Page
+<img src="https://github.com/ianjay11/Pay-UP/blob/master/frontend/screenshots/6mypurchasespage.PNG">
 
 
-## Contributing
 
