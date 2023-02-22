@@ -5,34 +5,38 @@ import app from '../../lib/axios-config';
 import { useNavigate } from 'react-router-dom';
 
 export default function Purchases() {
-  const purchases = useLoaderData();
+  const { purchases, balance } = useLoaderData();
+  const bal = balance.balance;
+
   const navigate = useNavigate();
   const updateStatus = async (status, id) => {
     try {
       const res = await app.put(`/me/deal_status/${id}`, { status });
       navigate(0);
-    } catch (error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
-const receive = async (deal_id) => {
-  try {
-    const res = await app.post(`/receive/${deal_id}`)
-    
-  } catch (error) {
-    console.log(error);
-  }
-}
+  const receive = async (deal_id) => {
+    try {
+      const res = await app.post(`/receive/${deal_id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const accept = async (deal_id) => {
-  try {
-    const res = await app.post(`/accept/${deal_id}`)
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+  const accept = async (deal_id, amount) => {
+    try {
+      if (bal >= amount) {
+        const res = await app.post(`/accept/${deal_id}`);
+      } else {
+        alert('Insufficient balance');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="bg-light p-1 container-bordered" id="purcontainer">
@@ -102,20 +106,28 @@ const accept = async (deal_id) => {
                   {item.status}
                 </td>
                 <td className="text-center">
-                  {item.status == 'ONGOING' || item.status == 'COMPLETED'? (
+                  {item.status == 'ONGOING' || item.status == 'COMPLETED' ? (
                     <button
                       className="btn btn-primary"
                       disabled={item.status == 'COMPLETED'}
-                      onClick={() => {updateStatus(`COMPLETED`, item.deal_id); receive(item.deal_id)}}
+                      onClick={() => {
+                        updateStatus(`COMPLETED`, item.deal_id);
+                        receive(item.deal_id);
+                      }}
                     >
-                    RECEIVED
+                      RECEIVED
                     </button>
                   ) : (
                     <>
                       <button
                         className="btn btn-primary"
-                        disabled={item.status != 'PENDING'}
-                        onClick={() => {updateStatus(`ONGOING`, item.deal_id); accept(item.deal_id)}}
+                        disabled={
+                          item.status !== 'PENDING' || item.amount > bal
+                        }
+                        onClick={() => {
+                          updateStatus(`ONGOING`, item.deal_id);
+                          accept(item.deal_id, item.amount);
+                        }}
                       >
                         Accept
                       </button>
@@ -124,7 +136,7 @@ const accept = async (deal_id) => {
                         disabled={item.status != 'PENDING'}
                         onClick={() => updateStatus(`DECLINED`, item.deal_id)}
                       >
-                        <i className="fa fa-trash"></i>Decline
+                        Decline
                       </button>
                     </>
                   )}

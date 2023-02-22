@@ -30,22 +30,24 @@ export function SignUp({ hasError }) {
                     <input type="text" name="barangay"className="input-field" required/>
                 </div>
                 <div className="col-sm-6 mb-3">
-                    <label>City</label>
-                    <input type="text" name="city"className="input-field" required/>
-                </div>
-                <div className="col-sm-6 mb-3">
                     <label>Region</label>
                     <input type="text" name="region" className="input-field" required/>
                 </div>
-                <div className="col-sm-6 mb-3">
-                    <label>Phone Number</label>
-                    <input type="text" name="phone_number" className="input-field" required/>
+                <div className="mb-3">
+                    <label>City</label>
+                    <input type="text" name="city"className="input-field" required/>
                 </div>
-            </div>
-            <div className="mb-3">
+                <div className="mb-3">
                 <label>Your Email</label>
                 <input type="email" className="input-field" name="email" required/>
             </div>
+                
+            </div>
+            <div className="mb-3">
+                    <label>Phone Number</label>
+                    <input type="number" name="phone_number" className="input-field" required/>
+                </div>
+            
             <div className="mb-3">
                 <label>Username</label>
                 <input type="text" name="username" className="input-field" required/>

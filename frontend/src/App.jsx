@@ -127,12 +127,18 @@ const App = () => {
         />
         ,
         <Route
-          path="deals/mypurchases/"
+          path="deals/mypurchases"
           element={<Purchases />}
           loader={async () => {
             try {
-              const res = await app.get('/me/deal');
-              return res.data;
+              const [purchase, balance] = await Promise.all([
+              app.get('/me/deal'),
+              app.get('/balance'),
+              ]);
+                return {
+                  purchases: purchase.data,
+                  balance: balance.data,
+                };
             } catch (err) {
               console.log(err);
             }
