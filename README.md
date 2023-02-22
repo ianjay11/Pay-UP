@@ -79,8 +79,8 @@ function  connectDatabase(){
 ```
 
 6. Create `.env` variable
-    -Create a new file called '.env'.
-    -Inside the '.env' file, input `JWT_SECRET = (insert your password-like string here)`.
+    - Create a new file called '.env'.
+    - Inside the '.env' file, input `JWT_SECRET = (insert your password-like string here)`.
 
 7. Install the dependencies for the client:
     - Open a new terminal.
