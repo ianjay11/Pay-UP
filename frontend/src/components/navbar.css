@@ -1,0 +1,48 @@
+
+#navcontainer1 {
+    background-color: rgb(241, 76, 16);
+    margin-top: -10px;
+    }
+    
+#navcontainer2 {
+background-color: rgb(241, 76, 16);
+}
+#logo{
+    width: 200px;
+    margin-left: 20px;
+}
+
+#navnames {
+    color: white;
+}
+
+#navnames.active{
+    color: black;
+}
+
+.nav_left {
+    background-color: rgb(241, 76, 16);
+    border-top-left-radius: 48px;
+    border-bottom-left-radius: 48px;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: transparent;
+    border-color: transparent;
+    border-top: 4px solid #fff;
+    color: #fff;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin: 0 30px 0 40px;
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+
+

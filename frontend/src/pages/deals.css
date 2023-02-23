@@ -1,9 +1,17 @@
+body{
+  overflow: scroll;
+}
+
 #container {
-  margin-left: 260px;
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-right: 30px;
 }
 
 #purcontainer {
-  margin-left: 260px;
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-right: 30px;
 }
 
 #table{

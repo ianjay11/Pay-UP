@@ -2,20 +2,81 @@ import '../pages/dashboardhome.css';
 import { Form, useNavigate } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 import app from '../../lib/axios-config';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
 
 export default function Home() {
   const { balance, transactions } = useLoaderData();
-  const newbal = Number(balance.balance).toFixed(2);
+  const newbal = Number(balance.balance).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   const [cashOut, setCashOut] = useState({ amount: 0, gateway_option: 'Bank' });
   const navigate = useNavigate();
   const updatedAmount = Number(cashOut.amount).toFixed(2);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [filteredTransactions, setFilteredTransactions] =
+    useState(transactions);
+
+  useEffect(() => {
+    $(startDateRef.current).datepicker({
+      format: 'yyyy-mm-dd',
+    });
+    $(endDateRef.current).datepicker({
+      format: 'yyyy-mm-dd',
+    });
+  }, []);
+
+  const handleSubmit = async () => {
+    console.log(startDateRef.current.value, endDateRef.current.value);
+    if (startDateRef.current.value && endDateRef.current.value) {
+      const result = await app.get('/transactions', {
+        params: {
+          startDate: startDateRef.current.value,
+          endDate: endDateRef.current.value,
+        },
+      });
+      if (result.status == 200) {
+        setFilteredTransactions(result.data);
+        console.log(result);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const startDateInput = startDateRef.current;
+    const endDateInput = endDateRef.current;
+
+    startDateInput.setAttribute('max', endDateInput.value);
+    endDateInput.setAttribute('min', startDateInput.value);
+
+    setIsButtonDisabled(
+        new Date(startDateInput.value) > new Date(endDateInput.value)
+    );
+  }, [startDateRef, endDateRef]);
+
+  const handleInputChange = () => {
+    const startDateInput = startDateRef.current;
+    const endDateInput = endDateRef.current;
+
+    startDateInput.setAttribute('max', endDateInput.value);
+    endDateInput.setAttribute('min', startDateInput.value);
+
+    setIsButtonDisabled(
+        new Date(startDateInput.value) > new Date(endDateInput.value)
+    );
+  };
 
   const withdraw = async (event) => {
     console.log(newbal, cashOut.amount, Number(newbal) < Number(updatedAmount));
     if (Number(newbal) < Number(updatedAmount)) {
       alert('Insufficient Balance');
-      setCashOut({amount:0, gateway_option:'Bank'})
+      setCashOut({ amount: 0, gateway_option: 'Bank' });
       return;
     }
     if (cashOut.amount && cashOut.gateway_option) {
@@ -24,7 +85,7 @@ export default function Home() {
       navigate(0);
     } else {
       alert('Please input required fields');
-      setCashOut({amount:0, gateway_option:'Bank'})
+      setCashOut({ amount: 0, gateway_option: 'Bank' });
     }
     event.persist();
   };
@@ -208,7 +269,47 @@ export default function Home() {
         className="table-responsive shadow p-3 mb-5 bg-body-tertiary rounded w-100"
         id="table2"
       >
-        <h3 className="mb-3">Latest Transactions</h3>
+        {/* -------------------Search Transactions----------------------- */}
+        <Form method="post" action={`/dashboard/home`}>
+          <section className="d-flex mb-2 mt-2">
+            <h3>Transaction History</h3>
+            <div className="input-group input-daterange" id="search">
+              <input
+                id="start"
+                placeholder="Start Date"
+                type="date"
+                name="startDate"
+                className="form-control"
+                ref={startDateRef}
+                max={endDateRef.current?.value}
+                required
+                onChange={handleInputChange}
+              />
+              <input
+                id="end"
+                placeholder="End Date"
+                type="date"
+                name="endDate"
+                className="form-control"
+                ref={endDateRef}
+                min={startDateRef.current?.value}
+                required
+                onChange={handleInputChange}
+              />
+              <button
+                className="btn btn-primary"
+                type="submit"
+                value="Request"
+                name="type"
+                onClick={handleSubmit}
+                disabled={isButtonDisabled}
+              >
+                Request
+              </button>
+            </div>
+          </section>
+        </Form>
+
         <table className="table table-striped table-bordered">
           <thead>
             <tr className="text-center">
@@ -219,7 +320,7 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((item, index) => (
+            {filteredTransactions.map((item, index) => (
               <tr key={index}>
                 <td
                   className="text-center"

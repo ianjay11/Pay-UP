@@ -1,9 +1,14 @@
-/* dashboardhome */
 
+/* ------------nav bar-------- */
+
+
+
+
+/* -------balance card--------- */
 #container2 {
     padding-top: 30px;
-    margin-left: 150px;
-    margin-right: 320px;
+    margin-left: 10px;
+    margin-right: 400px;
   }
   
   #balance {
@@ -18,7 +23,21 @@
   font-size: 50px;
   }
   
+/* =============table========= */
   #table2 {
     margin-left: 200px;
     border: solid 1px rgb(236, 172, 149);
+  }
+
+  #start, #end{
+    border-width: 20px;
+    border: 1px solid rgb(156, 153, 153);
+    height: 40px;
+  }
+
+  #search{
+    width: 400px;
+    height: 20px;
+    margin-left: 230px;
+    margin-top: -10px;
   }

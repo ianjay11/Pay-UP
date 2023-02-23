@@ -96,6 +96,11 @@ const accept = async (req, res) => {
       getBalance(user_id),
       dealAmount(deal_id),
     ]);
+    
+    if (Number(amount) > balance) {
+      return res.status(400).json({ message: "Insufficient balance" });
+    }
+    
     const transaction = await pool.query(
       `
           INSERT INTO transactions (
@@ -117,6 +122,7 @@ const accept = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
 
 //add money to the seller
 const received = async (req, res) => {
@@ -152,20 +158,34 @@ const received = async (req, res) => {
 
 const getTransaction = async (req, res) => {
   try {
-    const results = await pool.query(
+    const { startDate, endDate } = req.query;
+    const results = startDate && endDate ? await pool.query(
       `SELECT 
-          transaction_id,
-          transaction_type,
-          gateway_option,
-          amount,
-          inserted_at
-        FROM transactions 
-        WHERE user_id = $1 
-        ORDER BY inserted_at DESC
-        LIMIT 10`,
+        transaction_id,
+        transaction_type,
+        gateway_option,
+        amount,
+        inserted_at
+      FROM transactions 
+      WHERE user_id = $1 
+      AND inserted_at::date BETWEEN $2::date AND $3::date
+      ORDER BY inserted_at DESC
+      LIMIT 10`,
+      [req.user.user_id, startDate, endDate]
+    ) : await pool.query(
+      `SELECT 
+        transaction_id,
+        transaction_type,
+        gateway_option,
+        amount,
+        inserted_at
+      FROM transactions 
+      WHERE user_id = $1 
+      ORDER BY inserted_at DESC
+      LIMIT 10`,
       [req.user.user_id]
     );
-
+    
     const formattedResults = results.rows.map((row) => {
       const date = new Date(row.inserted_at);
       const formattedDate = date.toLocaleString('en-US', {
@@ -174,14 +194,14 @@ const getTransaction = async (req, res) => {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: true,
       });
       return {
         transaction_id: row.transaction_id,
         transaction_type: row.transaction_type,
         gateway_option: row.gateway_option,
         amount: row.amount,
-        inserted_at: formattedDate
+        inserted_at: formattedDate,
       };
     });
 
@@ -190,6 +210,8 @@ const getTransaction = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+
 
 
 

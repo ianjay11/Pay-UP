@@ -15,8 +15,6 @@ import Deals from './pages/Deals';
 import Purchases from './pages/mypurchases';
 import Home from './pages/dashboardhome';
 
-
-
 if (localStorage.getItem('token')) {
   app.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
     'token'
@@ -96,7 +94,7 @@ const App = () => {
                   quantity
                 ) {
                   await app.post('/deal', data);
-                  location.reload()
+                  location.reload();
                 } else {
                   alert('Please input all required fields');
                 }
@@ -132,13 +130,13 @@ const App = () => {
           loader={async () => {
             try {
               const [purchase, balance] = await Promise.all([
-              app.get('/me/deal'),
-              app.get('/balance'),
+                app.get('/me/deal'),
+                app.get('/balance'),
               ]);
-                return {
-                  purchases: purchase.data,
-                  balance: balance.data,
-                };
+              return {
+                purchases: purchase.data,
+                balance: balance.data,
+              };
             } catch (err) {
               console.log(err);
             }
@@ -189,6 +187,7 @@ const App = () => {
                   }
                 }
               }
+
             } catch (error) {
               console.log(error);
               throw error;
