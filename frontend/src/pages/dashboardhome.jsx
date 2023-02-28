@@ -73,13 +73,12 @@ export default function Home() {
   };
 
   const withdraw = async (event) => {
-    console.log(newbal, cashOut.amount, Number(newbal) < Number(updatedAmount));
-    if (Number(newbal) < Number(updatedAmount)) {
+    if (cashOut.amount && cashOut.gateway_option && newbal < updatedAmount) {
       alert('Insufficient Balance');
       setCashOut({ amount: 0, gateway_option: 'Bank' });
       return;
     }
-    if (cashOut.amount && cashOut.gateway_option) {
+    if (cashOut.amount && cashOut.gateway_option && newbal >= updatedAmount) {
       console.log('withdraw successful');
       await app.post('/withdraw', cashOut);
       navigate(0);
@@ -222,7 +221,8 @@ export default function Home() {
                     onChange={(event) => handleChange(event)}
                     className="form-control"
                     name="amount"
-                    type="text"
+                    type="number"
+                    required
                   />
                 </div>
                 {/* <!-- Form Group (courier name)--> */}
@@ -233,6 +233,7 @@ export default function Home() {
                     className="form-select form-select-lg mb-3"
                     aria-label="Default select example"
                     name="gateway_option"
+                    required
                   >
                     <option value="Bank">Bank</option>
                     <option value="Coins.ph">Coins.ph</option>

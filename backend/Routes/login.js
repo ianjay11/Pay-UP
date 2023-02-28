@@ -37,7 +37,6 @@ const registerUser = async (req, res) => {
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     //Add the new user into the database
-    //generate the uuid using the uuidv4() function
     const newUser = await pool.query(
       `
         INSERT INTO users (

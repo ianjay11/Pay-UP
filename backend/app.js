@@ -52,7 +52,7 @@ app.get("/verify", auth, verify);
 app.post("/deal", auth, deal);
 app.put("/deal/:id", auth, editDeal);
 app.delete("/deal/:id", auth, deleteDeal);
-app.get("/me/deal", auth, getBuyerDeal);
+app.get("/purchaseme/:status", auth, getBuyerDeal);
 app.get("/dealme/:status", auth, getDealsByUser);
 app.put("/me/deal_status/:id", auth, updateDealStatus);
 app.get("/deal", auth, showAlldDeals); //admin

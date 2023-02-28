@@ -20,7 +20,7 @@ const deal = async (req, res) => {
       !quantity ||
       !amount ||
       !courier_tracking ||
-      ! buyer_id
+      !buyer_id
     ) {
       return res.status(400).send({
         error: "Required fields missing.",
@@ -48,14 +48,13 @@ const deal = async (req, res) => {
         user_id,
         amount,
         courier_tracking,
-        buyer_id
+        buyer_id,
       ]
     );
 
     res.status(201).send(newDeal.rows[0]);
   } catch (error) {
     console.error(error);
-    console.log(error);
     res.status(500).send({
       error: "Something went wrong while creating the deal.",
     });
@@ -86,14 +85,7 @@ const editDeal = async (req, res) => {
             updated_at=CURRENT_TIMESTAMP
             WHERE deal_id=$6 RETURNING * 
         `,
-      [
-        item_description,
-        courier_name,
-        quantity,
-        amount,
-        courier_tracking,
-        id,
-      ]
+      [item_description, courier_name, quantity, amount, courier_tracking, id]
     );
 
     res.json(editDeal.rows[0]);
@@ -118,10 +110,12 @@ const showAlldDeals = async (req, res) => {
 
 //all deals from the logged user
 const getDealsByUser = async (req, res) => {
-  const status = req.params.status
-  if (status != 'ALL'){
-    await pool.query(
-    `SELECT 
+  const status = req.params.status;
+  try {
+    let results;
+    if (status !== "ALL") {
+      results = await pool.query(
+        `SELECT 
           deal_id,
           item_description,
           courier_name,
@@ -131,16 +125,11 @@ const getDealsByUser = async (req, res) => {
           courier_tracking,
           status 
           FROM deal WHERE seller_id = $1 AND status=$2 ORDER BY deal_id`,
-    [req.user.user_id, status],
-    (error, results) => {
-      if (error) {
-        res.status(500).send(error);
-      }
-      res.status(200).json(results.rows);
-    }
-  );} else {
-    await pool.query(
-      `SELECT 
+        [req.user.user_id, status]
+      );
+    } else {
+      results = await pool.query(
+        `SELECT 
             deal_id,
             item_description,
             courier_name,
@@ -150,24 +139,25 @@ const getDealsByUser = async (req, res) => {
             courier_tracking,
             status 
             FROM deal WHERE seller_id = $1 ORDER BY deal_id`,
-      [req.user.user_id],
-      (error, results) => {
-        if (error) {
-          res.status(500).send(error);
-        }
-        res.status(200).json(results.rows);
-      })
+        [req.user.user_id]
+      );
+    }
+    res.status(200).json(results.rows);
+  } catch (error) {
+    res.status(500).send(error);
   }
 };
 
 //deal for the buyer side to access the created deal
 //by the seller
 const getBuyerDeal = async (req, res) => {
+  const status = req.params.status;
   try {
-    const id = req.user.user_id;
-    const deal = await pool.query(
-        `SELECT
-          deal_id, 
+    let results;
+    if (status !== "ALL") {
+      results = await pool.query(
+        `SELECT 
+          deal_id,
           item_description,
           courier_name,
           quantity,
@@ -175,19 +165,26 @@ const getBuyerDeal = async (req, res) => {
           amount,
           courier_tracking,
           status 
-        FROM deal
-        WHERE buyer_id=$1
-      `,
-      [id]
-    );
-
-    if (deal.rows.length === 0) {
-      return res.json([]);
+          FROM deal WHERE buyer_id=$1 AND status=$2 ORDER BY deal_id`,
+        [req.user.user_id, status]
+      );
+    } else {
+      results = await pool.query(
+        `SELECT 
+            deal_id,
+            item_description,
+            courier_name,
+            quantity,
+            seller_id,
+            amount,
+            courier_tracking,
+            status 
+            FROM deal WHERE buyer_id = $1 ORDER BY deal_id`,
+        [req.user.user_id]
+      );
     }
-
-    res.json(deal.rows);
+    res.status(200).json(results.rows);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 };
@@ -213,12 +210,11 @@ const deleteDeal = async (req, res) => {
   );
 };
 
-
 const updateDealStatus = async (req, res) => {
-  const id = req.params.id
-  const { status } = req.body
-  const updatedDeal = await pool.query (
-    "UPDATE deal SET status=$1 WHERE deal_id = $2", 
+  const id = req.params.id;
+  const { status } = req.body;
+  const updatedDeal = await pool.query(
+    "UPDATE deal SET status=$1 WHERE deal_id = $2",
     [status, id],
     (error, results) => {
       if (error) {
@@ -232,7 +228,15 @@ const updateDealStatus = async (req, res) => {
         message: "Status updated successfully",
       });
     }
-  )
-}
+  );
+};
 
-export { deal, editDeal, showAlldDeals, getDealsByUser, getBuyerDeal, deleteDeal, updateDealStatus };
+export {
+  deal,
+  editDeal,
+  showAlldDeals,
+  getDealsByUser,
+  getBuyerDeal,
+  deleteDeal,
+  updateDealStatus,
+};

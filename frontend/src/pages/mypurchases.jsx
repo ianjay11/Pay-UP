@@ -3,10 +3,13 @@ import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import app from '../../lib/axios-config';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function Purchases() {
-  const { purchases, balance } = useLoaderData();
+  const  balance  = useLoaderData();
   const bal = balance.balance;
+  const [selectedStatus, setSelectedStatus] = useState('ALL');
+  const [deals, setDeals] = useState([]);
 
   const navigate = useNavigate();
   const updateStatus = async (status, id) => {
@@ -26,6 +29,16 @@ export default function Purchases() {
     }
   };
 
+  useEffect(() => {
+    const init = async () => {
+      const res = await app.get(`/purchaseme/${selectedStatus}`);
+      if (res.status == 200) {
+        setDeals(res.data);
+      }
+    };
+    init();
+  }, [selectedStatus]);
+
   const accept = async (deal_id, amount) => {
     try {
       if (bal >= amount) {
@@ -44,7 +57,7 @@ export default function Purchases() {
       <ul className="nav nav-tabs">
         <li className="nav-item">
           <a className="nav-link" aria-current="page" href="/dashboard/deals">
-            My Deals
+            Deals
           </a>
         </li>
         <li className="nav-item">
@@ -54,16 +67,42 @@ export default function Purchases() {
             href="mypurchases"
             id="active"
           >
-            My Purchases
+            Purchases
           </a>
         </li>
       </ul>
       {/* end nav */}
+      <div className="d-flex mb-2 mt-2">
+        <h3 className="mb-2 my-2 flex-grow-1">My Purchases</h3>
+        <div className="dropdown mx-4 my-2">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {selectedStatus}
+            </button>
+            <ul className="dropdown-menu">
+              {['ALL', 'PENDING', 'ONGOING', 'COMPLETED', 'DECLINED'].map(
+                (item) => (
+                  <li key={item} className="dropdown-item text-center">
+                    <a
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setSelectedStatus(item)}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+          </div>
       <div
         className="table-responsive shadow p-3 mb-5 bg-body-tertiary rounded"
         id="table"
       >
-        <h3 className="mb-3">My Purchases</h3>
         <table className="table table-striped table-bordered">
           <thead>
             <tr className="text-center">
@@ -77,7 +116,7 @@ export default function Purchases() {
             </tr>
           </thead>
           <tbody>
-            {purchases.map((item, index) => (
+            {deals.map((item, index) => (
               <tr key={index}>
                 <td scope="row" data-title="Item Description">
                   {item.item_description}

@@ -27,7 +27,7 @@ export default function Dashboard() {
   }, [token]);
 
   return (
-    <div style={{backgroundColor: "white", marginTop: "-20px"}}>
+    <div style={{marginTop: "-20px"}}>
       <Navbar/>
       <Outlet />
     </div>

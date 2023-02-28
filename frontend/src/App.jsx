@@ -129,18 +129,12 @@ const App = () => {
           element={<Purchases />}
           loader={async () => {
             try {
-              const [purchase, balance] = await Promise.all([
-                app.get('/me/deal'),
-                app.get('/balance'),
-              ]);
-              return {
-                purchases: purchase.data,
-                balance: balance.data,
-              };
+              const res = await app.get('/balance');
+              return res.data;
             } catch (err) {
               console.log(err);
+              throw err;
             }
-            return null;
           }}
         />
         ,
@@ -182,6 +176,7 @@ const App = () => {
                   const { amount, gateway_option } = data;
                   if (amount && gateway_option) {
                     await app.post('/cashIn', data);
+                    location.reload()
                   } else {
                     alert('Please input all required fields');
                   }

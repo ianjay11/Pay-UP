@@ -57,7 +57,7 @@ const withdraw = async (req, res) => {
     const balance = await getBalance(user_id);
 
     if (balance < Number(amount)) {
-      return res.status(400).json({ message: 'Insufficient balance' });
+      return res.status(400).json({ message: "Insufficient balance" });
     }
 
     const transaction = await pool.query(
@@ -96,11 +96,11 @@ const accept = async (req, res) => {
       getBalance(user_id),
       dealAmount(deal_id),
     ]);
-    
+
     if (Number(amount) > balance) {
       return res.status(400).json({ message: "Insufficient balance" });
     }
-    
+
     const transaction = await pool.query(
       `
           INSERT INTO transactions (
@@ -123,12 +123,11 @@ const accept = async (req, res) => {
   }
 };
 
-
 //add money to the seller
 const received = async (req, res) => {
   try {
     const deal_id = Number(req.params.deal_id);
-    const user_id = await seller(deal_id)
+    const user_id = await seller(deal_id);
     const [balance, amount] = await Promise.all([
       getBalance(user_id),
       dealAmount(deal_id),
@@ -159,8 +158,10 @@ const received = async (req, res) => {
 const getTransaction = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    const results = startDate && endDate ? await pool.query(
-      `SELECT 
+    const results =
+      startDate && endDate
+        ? await pool.query(
+            `SELECT 
         transaction_id,
         transaction_type,
         gateway_option,
@@ -170,10 +171,11 @@ const getTransaction = async (req, res) => {
       WHERE user_id = $1 
       AND inserted_at::date BETWEEN $2::date AND $3::date
       ORDER BY inserted_at DESC
-      LIMIT 10`,
-      [req.user.user_id, startDate, endDate]
-    ) : await pool.query(
-      `SELECT 
+      `,
+            [req.user.user_id, startDate, endDate]
+          )
+        : await pool.query(
+            `SELECT 
         transaction_id,
         transaction_type,
         gateway_option,
@@ -183,17 +185,17 @@ const getTransaction = async (req, res) => {
       WHERE user_id = $1 
       ORDER BY inserted_at DESC
       LIMIT 10`,
-      [req.user.user_id]
-    );
-    
+            [req.user.user_id]
+          );
+
     const formattedResults = results.rows.map((row) => {
       const date = new Date(row.inserted_at);
-      const formattedDate = date.toLocaleString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
+      const formattedDate = date.toLocaleString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: true,
       });
       return {
@@ -210,9 +212,5 @@ const getTransaction = async (req, res) => {
     res.status(500).send(error);
   }
 };
-
-
-
-
 
 export { withdraw, cashIn, balance, accept, received, getTransaction };

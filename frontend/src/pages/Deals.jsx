@@ -36,12 +36,12 @@ function Deals() {
             href="deals"
             id="active"
           >
-            My Deals
+            Deals
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" aria-current="page" href="deals/mypurchases">
-            My Purchases
+            Purchases
           </a>
         </li>
       </ul>
@@ -69,8 +69,13 @@ function Deals() {
             <ul className="dropdown-menu">
               {['ALL', 'PENDING', 'ONGOING', 'COMPLETED', 'DECLINED'].map(
                 (item) => (
-                  <li className="dropdown-item text-center">
-                    <a style={{cursor: 'pointer'}} onClick={() => setSelectedStatus(item)}>{item}</a>
+                  <li key={item} className="dropdown-item text-center">
+                    <a
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setSelectedStatus(item)}
+                    >
+                      {item}
+                    </a>
                   </li>
                 )
               )}
@@ -274,7 +279,8 @@ function Deals() {
                     <button
                       className="btn btn-danger ms-1"
                       disabled={item.status != 'PENDING'}
-                      onClick={() => deleteDeal(item.deal_id)}>
+                      onClick={() => deleteDeal(item.deal_id)}
+                    >
                       Delete
                     </button>
                   </td>
