@@ -79,15 +79,20 @@ function  connectDatabase(){
 ```
 
 6. Create `.env` variable
-    - Create a new file called '.env'.
-    - Inside the '.env' file, input `JWT_SECRET = (insert your password-like string here)`.
+    - Create a new file called '.env' in backend folder.
+    - Inside the '.env' file, input `JWT_SECRET = (insert your password-like string here)` and 
+        `FRONTEND_URL = (insert your front-end url here)`.
 
-7. Install the dependencies for the client:
+7. Create `.env` variable
+    - Create a new file called '.env' in frontend folder.
+    - Inside the '.env' file, input `VITE_BACKEND_URL = (insert your backend url here)`.
+
+8. Install the dependencies for the client:
     - Open a new terminal.
     - Navigate to the client directory.
     - Type `npm install` to install the dependencies.
 
-8. Turn on the project:
+9. Turn on the project:
     - Open a new terminal.
     - Navigate to the backend directory.
     - Type `npm run dev`.
