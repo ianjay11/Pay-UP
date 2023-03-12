@@ -19,6 +19,7 @@ const Profile = () => {
                     Username
                   </label>
                   <input
+                    disabled
                     defaultValue={user.username}
                     name="username"
                     className="form-control"
@@ -33,7 +34,7 @@ const Profile = () => {
                   </label>
                   <input
                     disabled
-                    readOnly 
+                    readOnly
                     className="form-control"
                     name="user_id"
                     id="inputPhone"
@@ -145,7 +146,11 @@ const Profile = () => {
                 </div>
               </div>
               {/* <!-- Save changes button--> */}
-              <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button
+                className="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
                 Edit
               </button>
               <div
@@ -168,7 +173,9 @@ const Profile = () => {
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div className="modal-body">Are you sure you want to edit?</div>
+                    <div className="modal-body">
+                      Are you sure you want to edit?
+                    </div>
                     <div className="modal-footer">
                       <button
                         type="button"
@@ -177,7 +184,12 @@ const Profile = () => {
                       >
                         Close
                       </button>
-                      <button type="submit" reset="button" className="btn btn-primary" data-bs-dismiss="modal">
+                      <button
+                        type="submit"
+                        reset="button"
+                        className="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
                         Confirm Edit
                       </button>
                     </div>

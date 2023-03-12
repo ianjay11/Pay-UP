@@ -15,8 +15,7 @@ export default function Home() {
     maximumFractionDigits: 2,
   });
   const [cashOut, setCashOut] = useState({ amount: 0, gateway_option: 'Bank' });
-  const navigate = useNavigate();
-  const updatedAmount = Number(cashOut.amount).toFixed(2);
+  const updatedAmount = Number(cashOut.amount)
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -73,20 +72,21 @@ export default function Home() {
   };
 
   const withdraw = async (event) => {
-    if (cashOut.amount && cashOut.gateway_option && newbal < updatedAmount) {
+    const numBal = balance.balance
+    if (cashOut.amount && cashOut.gateway_option && numBal < Number(updatedAmount)) { 
       alert('Insufficient Balance');
       setCashOut({ amount: 0, gateway_option: 'Bank' });
       return;
     }
-    if (cashOut.amount && cashOut.gateway_option && newbal >= updatedAmount) {
+    if (cashOut.amount && cashOut.gateway_option && numBal >= Number(updatedAmount)) {
       console.log('withdraw successful');
       await app.post('/withdraw', cashOut);
-      navigate(0);
+      setCashOut({ amount: 0, gateway_option: 'Bank' });
+      location.reload()
     } else {
       alert('Please input required fields');
       setCashOut({ amount: 0, gateway_option: 'Bank' });
     }
-    event.persist();
   };
 
   const handleChange = (event) => {
